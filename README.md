@@ -1,29 +1,27 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+This library can re-format json log. The single line formatter is based on the [Datenkraft\MonologGkeFormatter\GkeFormatter](https://github.com/datenkraft/monolog-gke-formatter)
+and is optimized for the Google Kubernetes Engine, whereas the multi line formatter is for local logging with beautified
+output.
 
-### What is this repository for? ###
+Both introduced formatter convert objects which would not be convertible by monolog to arrays. Please be aware that
+through this feature private data could be exposed to log if not adding it to the blacklist.
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+## Installation
 
-### How do I get set up? ###
+```
+composer require Datenkraft/monolog-formatter
+```
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+## Usage
 
-### Contribution guidelines ###
+```php
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Datenkraft\MonologFormatter;
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+$handler = new StreamHandler('php://stdout');
+$handler->setFormatter(new SingleLineFormatter());
+// or
+$handler->setFormatter(new MultiLineFormatter());
+```

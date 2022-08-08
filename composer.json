@@ -1,0 +1,41 @@
+{
+  "name": "datenkraft/monolog-formatter",
+  "description": "Datenkraft Monolog JSON Formatter",
+  "homepage": "https://github.com/datenkraft/monolog-formatter",
+  "type": "library",
+  "keywords": [
+    "Google",
+    "Tracing",
+    "Logging",
+    "Error Reporting",
+    "Formator Error",
+    "log",
+    "logging"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Datenkraft GmbH",
+      "email": "office@datenkraft.com"
+    }
+  ],
+  "require": {
+    "php": "^8.0",
+    "monolog/monolog": "^2.1",
+    "datenkraft/monolog-gke-formatter": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.3.3",
+    "squizlabs/php_codesniffer": "^3.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Datenkraft\\MonologFormatter\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  }
+}
