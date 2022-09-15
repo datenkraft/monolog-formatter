@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe5b92c317400f03ad3a138e3a0839fe",
+    "content-hash": "be8ea22e257832cd7f141e790d7da41c",
     "packages": [
         {
             "name": "datenkraft/monolog-gke-formatter",
@@ -2210,7 +2210,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "~8.0"
+        "php": "^8.0"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
