@@ -23,13 +23,7 @@ class ObjectToArrayTransformer
     public function convertRecord(array &$record): void
     {
         if (isset($record['context']) && is_array($record['context'])) {
-            foreach ($record['context'] as $key => $context) {
-                if (is_object($context)) {
-                    $record['context'][$key] = $this->objectToArray($context);
-                } elseif (is_array($context)) {
-                    $record['context'][$key] = $this->scanForObjects($context);
-                }
-            }
+            $record['context'] = $this->scanForObjectsAndConvert($record['context']);
         }
     }
 
@@ -38,13 +32,13 @@ class ObjectToArrayTransformer
      * @param array $array
      * @return array
      */
-    public function scanForObjects(array $array): array
+    public function scanForObjectsAndConvert(array $array): array
     {
         foreach ($array as $key => $value) {
             if (is_object($value)) {
                 $array[$key] = $this->objectToArray($value);
             } elseif (is_array($value)) {
-                $array[$key] = $this->scanForObjects($value);
+                $array[$key] = $this->scanForObjectsAndConvert($value);
             }
         }
         return $array;
