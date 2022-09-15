@@ -26,9 +26,28 @@ class ObjectToArrayTransformer
             foreach ($record['context'] as $key => $context) {
                 if (is_object($context)) {
                     $record['context'][$key] = $this->objectToArray($context);
+                } elseif (is_array($context)) {
+                    $record['context'][$key] = $this->scanForObjects($context);
                 }
             }
         }
+    }
+
+    /**
+     * Scans an array recursive for objects
+     * @param array $array
+     * @return array
+     */
+    public function scanForObjects(array $array): array
+    {
+        foreach ($array as $key => $value) {
+            if (is_object($value)) {
+                $array[$key] = $this->objectToArray($value);
+            } elseif (is_array($value)) {
+                $array[$key] = $this->scanForObjects($value);
+            }
+        }
+        return $array;
     }
 
     /**
