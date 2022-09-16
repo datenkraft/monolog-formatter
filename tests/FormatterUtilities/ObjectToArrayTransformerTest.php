@@ -247,8 +247,8 @@ class ObjectToArrayTransformerTest extends TestCase
             ->onlyMethods(['objectToArray'])
             ->getMock();
         $object
-            ->expects($this->once())
-            ->method('')
+            ->expects($this->exactly(2))
+            ->method('objectToArray')
             ->withConsecutive([$class1], [$class2])
             ->willReturnOnConsecutiveCalls([], []);
 
