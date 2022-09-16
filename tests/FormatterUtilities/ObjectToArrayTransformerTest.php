@@ -226,4 +226,32 @@ class ObjectToArrayTransformerTest extends TestCase
         ];
         $this->assertSame($expected, $record);
     }
+
+    /**
+     * @covers ::scanForObjectsAndConvert
+     * @return void
+     */
+    public function testScanForObjectsAndConvert(): void
+    {
+        $class1 = new SampleClass();
+        $class2 = new SampleClass();
+        $arr = [
+            [$class1],
+            $class2,
+        ];
+        $expected = [
+            [[]],
+            [],
+        ];
+        $object = $this->getMockBuilder(ObjectToArrayTransformer::class)
+            ->onlyMethods(['objectToArray'])
+            ->getMock();
+        $object
+            ->expects($this->exactly(2))
+            ->method('objectToArray')
+            ->withConsecutive([$class1], [$class2])
+            ->willReturnOnConsecutiveCalls([], []);
+
+        $this->assertSame($expected, $object->scanForObjectsAndConvert($arr));
+    }
 }
