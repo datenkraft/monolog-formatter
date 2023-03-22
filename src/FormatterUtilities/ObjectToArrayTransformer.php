@@ -56,20 +56,22 @@ class ObjectToArrayTransformer
         $dataArray = $obj instanceof Exception ? ['exception' => $obj] : [];
         $propertyArray = [];
         $reflection = new ReflectionClass($obj);
-        $properties = $reflection->getProperties();
-        foreach ($properties as $property) {
-            $property->setAccessible(true);
-            // uninitialized properties and stack traces from exceptions are ignored
-            if (!$property->isInitialized($obj)) {
-                continue;
-            }
-            if (isset($dataArray['exception']) && $property->getName() === 'trace') {
-                continue;
-            }
-            // here would be the place to add conditions for blacklisting properties
+        do {
+            foreach ($reflection->getProperties() as $property) {
+                $property->setAccessible(true);
+                // uninitialized properties and stack traces from exceptions are ignored
+                if (!$property->isInitialized($obj)) {
+                    continue;
+                }
+                if (isset($dataArray['exception']) && $property->getName() === 'trace') {
+                    continue;
+                }
+                // here would be the place to add conditions for blacklisting properties
 
-            $propertyArray[$property->getName()] = $property->getValue($obj);
-        }
+                $propertyArray[$property->getName()] = $property->getValue($obj);
+            }
+        } while ($reflection = $reflection->getParentClass());
+
         if (isset($dataArray['exception'])) {
             $dataArray['exceptionData'] = $this->arrayPropertyToArray($propertyArray);
         } else {
