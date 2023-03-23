@@ -280,9 +280,9 @@ class ObjectToArrayTransformerTest extends TestCase
             'exceptionData' => [
                 'response' => [
                     'pageInfo' => null,
+                    'statusCode' => 404,
                     'requestId' => 'requestId',
                     'reasonPhrase' => 'reasonPhrase',
-                    'statusCode' => 400,
                 ],
                 'message' => 'Example message of hierarchical exceptions',
                 'code' => 0,
