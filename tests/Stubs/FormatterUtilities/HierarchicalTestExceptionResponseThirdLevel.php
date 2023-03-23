@@ -8,4 +8,5 @@ class HierarchicalTestExceptionResponseThirdLevel extends HierarchicalTestExcept
 {
     /** @var object|null */
     private ?object $pageInfo = null;
+    private int $statusCode = 404;
 }

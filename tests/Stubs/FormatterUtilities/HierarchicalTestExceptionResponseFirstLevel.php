@@ -7,8 +7,8 @@ namespace Tests\Stubs\FormatterUtilities;
 class HierarchicalTestExceptionResponseFirstLevel
 {
     /** @var string */
-    private $reasonPhrase = 'reasonPhrase';
+    private string $reasonPhrase = 'reasonPhrase';
 
     /** @var int */
-    private $statusCode = 400;
+    private int $statusCode = 400;
 }

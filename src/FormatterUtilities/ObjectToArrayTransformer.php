@@ -68,7 +68,10 @@ class ObjectToArrayTransformer
                 }
                 // here would be the place to add conditions for blacklisting properties
 
-                $propertyArray[$property->getName()] = $property->getValue($obj);
+                // avoid overwriting with value from parent classes
+                if (!isset($propertyArray[$property->getName()])) {
+                    $propertyArray[$property->getName()] = $property->getValue($obj);
+                }
             }
         } while ($reflection = $reflection->getParentClass());
 
