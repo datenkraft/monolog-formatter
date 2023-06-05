@@ -23,12 +23,25 @@ class ObjectToArrayTransformer
     public function convertRecord(array &$record): void
     {
         if (isset($record['context']) && is_array($record['context'])) {
-            foreach ($record['context'] as $key => $context) {
-                if (is_object($context)) {
-                    $record['context'][$key] = $this->objectToArray($context);
-                }
+            $record['context'] = $this->scanForObjectsAndConvert($record['context']);
+        }
+    }
+
+    /**
+     * Scans an array recursive for objects
+     * @param array $array
+     * @return array
+     */
+    public function scanForObjectsAndConvert(array $array): array
+    {
+        foreach ($array as $key => $value) {
+            if (is_object($value)) {
+                $array[$key] = $this->objectToArray($value);
+            } elseif (is_array($value)) {
+                $array[$key] = $this->scanForObjectsAndConvert($value);
             }
         }
+        return $array;
     }
 
     /**
@@ -43,20 +56,25 @@ class ObjectToArrayTransformer
         $dataArray = $obj instanceof Exception ? ['exception' => $obj] : [];
         $propertyArray = [];
         $reflection = new ReflectionClass($obj);
-        $properties = $reflection->getProperties();
-        foreach ($properties as $property) {
-            $property->setAccessible(true);
-            // uninitialized properties and stack traces from exceptions are ignored
-            if (!$property->isInitialized($obj)) {
-                continue;
-            }
-            if (isset($dataArray['exception']) && $property->getName() === 'trace') {
-                continue;
-            }
-            // here would be the place to add conditions for blacklisting properties
+        do {
+            foreach ($reflection->getProperties() as $property) {
+                $property->setAccessible(true);
+                // uninitialized properties and stack traces from exceptions are ignored
+                if (!$property->isInitialized($obj)) {
+                    continue;
+                }
+                if (isset($dataArray['exception']) && $property->getName() === 'trace') {
+                    continue;
+                }
+                // here would be the place to add conditions for blacklisting properties
 
-            $propertyArray[$property->getName()] = $property->getValue($obj);
-        }
+                // avoid overwriting with value from parent classes
+                if (!isset($propertyArray[$property->getName()])) {
+                    $propertyArray[$property->getName()] = $property->getValue($obj);
+                }
+            }
+        } while ($reflection = $reflection->getParentClass());
+
         if (isset($dataArray['exception'])) {
             $dataArray['exceptionData'] = $this->arrayPropertyToArray($propertyArray);
         } else {

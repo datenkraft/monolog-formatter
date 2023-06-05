@@ -7,6 +7,8 @@ namespace Tests\FormatterUtilities;
 use Datenkraft\MonologFormatter\FormatterUtilities\ObjectToArrayTransformer;
 use Generator;
 use Tests\Stubs\FormatterUtilities\AnotherTestException;
+use Tests\Stubs\FormatterUtilities\HierarchicalTestException;
+use Tests\Stubs\FormatterUtilities\HierarchicalTestExceptionResponseThirdLevel;
 use Tests\Stubs\FormatterUtilities\SampleClass;
 use Tests\Stubs\FormatterUtilities\TestErrorResponse;
 use Tests\Stubs\FormatterUtilities\TestErrorWithoutProperties;
@@ -19,6 +21,8 @@ use Tests\TestCase;
  */
 class ObjectToArrayTransformerTest extends TestCase
 {
+    protected ObjectToArrayTransformer $object;
+
     /**
      * @covers ::convertRecord
      * @covers ::arrayPropertyToArray
@@ -56,7 +60,9 @@ class ObjectToArrayTransformerTest extends TestCase
                         'message' => 'Test Exception Message',
                         'code' => 409,
                         'file' => __FILE__,
-                        'line' => 39,
+                        'line' => 43,
+                        'string' => '',
+                        'previous' => null,
                     ],
                 ],
             ],
@@ -131,7 +137,9 @@ class ObjectToArrayTransformerTest extends TestCase
                     'message' => 'Test Exception Message',
                     'code' => 409,
                     'file' => __FILE__,
-                    'line' => 80,
+                    'line' => 86,
+                    'string' => '',
+                    'previous' => null,
                 ],
             ],
 
@@ -171,7 +179,9 @@ class ObjectToArrayTransformerTest extends TestCase
                     'message' => 'Test Exception Message',
                     'code' => 409,
                     'file' => __FILE__,
-                    'line' => 80,
+                    'line' => 86,
+                    'string' => '',
+                    'previous' => null,
                 ],
             ],
 
@@ -219,11 +229,69 @@ class ObjectToArrayTransformerTest extends TestCase
                         'message' => 'Test Exception Message',
                         'code' => 409,
                         'file' => __FILE__,
-                        'line' => 206
+                        'line' => 216,
+                        'string' => '',
+                        'previous' => null,
                     ]
                 ]
             ]
         ];
         $this->assertSame($expected, $record);
+    }
+
+    /**
+     * @covers ::scanForObjectsAndConvert
+     * @return void
+     */
+    public function testScanForObjectsAndConvert(): void
+    {
+        $class1 = new SampleClass();
+        $class2 = new SampleClass();
+        $arr = [
+            [$class1],
+            $class2,
+        ];
+        $expected = [
+            [[]],
+            [],
+        ];
+        $object = $this->getMockBuilder(ObjectToArrayTransformer::class)
+            ->onlyMethods(['objectToArray'])
+            ->getMock();
+        $object
+            ->expects($this->exactly(2))
+            ->method('objectToArray')
+            ->withConsecutive([$class1], [$class2])
+            ->willReturnOnConsecutiveCalls([], []);
+
+        $this->assertSame($expected, $object->scanForObjectsAndConvert($arr));
+    }
+
+    /**
+     * @return void
+     */
+    public function testHierarchicalExceptionProperties(): void
+    {
+        $response = new HierarchicalTestExceptionResponseThirdLevel();
+        $exception = new HierarchicalTestException('Example message of hierarchical exceptions', response: $response);
+        $this->object = new ObjectToArrayTransformer();
+        $expected = [
+            'exception' => $exception,
+            'exceptionData' => [
+                'response' => [
+                    'pageInfo' => null,
+                    'statusCode' => 404,
+                    'requestId' => 'requestId',
+                    'reasonPhrase' => 'reasonPhrase',
+                ],
+                'message' => 'Example message of hierarchical exceptions',
+                'code' => 0,
+                'file' => '/home/app/gg-monolog-formatter/tests/FormatterUtilities/ObjectToArrayTransformerTest.php',
+                'line' => 276,
+                'string' => '',
+                'previous' => null,
+            ]
+        ];
+        $this->assertSame($expected, $this->object->objectToArray($exception));
     }
 }
