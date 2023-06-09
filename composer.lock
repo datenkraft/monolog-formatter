@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/datenkraft/monolog-gke-formatter.git",
-                "reference": "b4dd4f504468e0175bf10367f8247f845898ecc6"
+                "reference": "06ef064641e165c5f80dc1f9696d990db82e8c91"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/datenkraft/monolog-gke-formatter/zipball/b4dd4f504468e0175bf10367f8247f845898ecc6",
-                "reference": "b4dd4f504468e0175bf10367f8247f845898ecc6",
+                "url": "https://api.github.com/repos/datenkraft/monolog-gke-formatter/zipball/06ef064641e165c5f80dc1f9696d990db82e8c91",
+                "reference": "06ef064641e165c5f80dc1f9696d990db82e8c91",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +58,7 @@
             "support": {
                 "source": "https://github.com/datenkraft/monolog-gke-formatter/tree/v2.0.0"
             },
-            "time": "2023-06-05T20:54:48+00:00"
+            "time": "2023-06-09T10:56:20+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
