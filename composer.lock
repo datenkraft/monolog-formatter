@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8495ad783949c4b210a2437d55d57bf5",
+    "content-hash": "092f722de1ab772045747ca5b39f4bca",
     "packages": [
         {
             "name": "datenkraft/monolog-gke-formatter",
-            "version": "v2.0.0",
+            "version": "dev-BB-4579-update-to-php-8-2-laravel-10-and-all-vendor-libraries-to-use-state-of-the-art-technologies",
             "source": {
                 "type": "git",
                 "url": "https://github.com/datenkraft/monolog-gke-formatter.git",
-                "reference": "b4dd4f504468e0175bf10367f8247f845898ecc6"
+                "reference": "20f1ccd4abaf5c98dc5f2e60ac9fe5a3c2a94c21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/datenkraft/monolog-gke-formatter/zipball/b4dd4f504468e0175bf10367f8247f845898ecc6",
-                "reference": "b4dd4f504468e0175bf10367f8247f845898ecc6",
+                "url": "https://api.github.com/repos/datenkraft/monolog-gke-formatter/zipball/20f1ccd4abaf5c98dc5f2e60ac9fe5a3c2a94c21",
+                "reference": "20f1ccd4abaf5c98dc5f2e60ac9fe5a3c2a94c21",
                 "shasum": ""
             },
             "require": {
@@ -56,9 +56,9 @@
                 "tracing"
             ],
             "support": {
-                "source": "https://github.com/datenkraft/monolog-gke-formatter/tree/v2.0.0"
+                "source": "https://github.com/datenkraft/monolog-gke-formatter/tree/BB-4579-update-to-php-8-2-laravel-10-and-all-vendor-libraries-to-use-state-of-the-art-technologies"
             },
-            "time": "2023-06-05T20:54:48+00:00"
+            "time": "2023-06-09T10:26:54+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -2148,7 +2148,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "datenkraft/monolog-gke-formatter": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

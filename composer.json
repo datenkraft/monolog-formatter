@@ -22,7 +22,7 @@
   "require": {
     "php": "^8.2",
     "monolog/monolog": "^3.3",
-    "datenkraft/monolog-gke-formatter": "^2.0"
+    "datenkraft/monolog-gke-formatter": "dev-BB-4579-update-to-php-8-2-laravel-10-and-all-vendor-libraries-to-use-state-of-the-art-technologies"
   },
   "require-dev": {
     "phpunit/phpunit": "^10.2.1",
