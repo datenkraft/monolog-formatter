@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Datenkraft\MonologFormatter\FormatterUtilities;
 
 use Exception;
+use Monolog\LogRecord;
 use ReflectionClass;
 
 /**
@@ -17,13 +18,22 @@ class ObjectToArrayTransformer
 
     /**
      * Convert a record which is given to a monolog formatter
-     * @param array $record
+     * @param LogRecord $record
      * @return void
      */
-    public function convertRecord(array &$record): void
+    public function convertRecord(LogRecord &$record): void
     {
-        if (isset($record['context']) && is_array($record['context'])) {
-            $record['context'] = $this->scanForObjectsAndConvert($record['context']);
+        if (isset($record->context) && is_array($record->context)) {
+            $context = $this->scanForObjectsAndConvert($record->context);
+            $record = new LogRecord(
+                $record->datetime,
+                $record->channel,
+                $record->level,
+                $record->message,
+                $context,
+                $record->extra,
+                $record->formatted
+            );
         }
     }
 

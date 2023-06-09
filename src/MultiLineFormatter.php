@@ -6,12 +6,18 @@ namespace Datenkraft\MonologFormatter;
 
 use Datenkraft\MonologFormatter\FormatterUtilities\ObjectToArrayTransformer;
 use Monolog\Formatter\JsonFormatter;
+use Monolog\LogRecord;
 
 /**
  * This formatter can be used for local logging
  */
 class MultiLineFormatter extends JsonFormatter
 {
+    /**
+     * @param self::BATCH_MODE_* $batchMode
+     *
+     * @throws \RuntimeException If the function json_encode does not exist
+     */
     public function __construct(
         int $batchMode = self::BATCH_MODE_JSON,
         bool $appendNewline = true,
@@ -25,7 +31,7 @@ class MultiLineFormatter extends JsonFormatter
     /**
      * @inheritDoc
      */
-    public function format(array $record): string
+    public function format(LogRecord $record): string
     {
         $transformer = new ObjectToArrayTransformer();
         $transformer->convertRecord($record);
