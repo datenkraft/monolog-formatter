@@ -42,7 +42,7 @@ class ObjectToArrayTransformerTest extends TestCase
         );
         $exception = new TestException($errorResponse);
         $record = ['context' => ['exception' => $exception]];
-        $object->convertRecord($record);
+        $record['context'] = $object->convertContext($record['context']);
         $expected = [
             'context' => [
                 'exception' => [
@@ -215,7 +215,7 @@ class ObjectToArrayTransformerTest extends TestCase
         $testB->setReference($testA);
         $exception = new AnotherTestException($testA);
         $record = ['context' => ['exception' => $exception]];
-        $object->convertRecord($record);
+        $record['context'] = $object->convertContext($record['context']);
         $expected = [
             'context' => [
                 'exception' => [
